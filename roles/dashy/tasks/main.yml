@@ -1,0 +1,23 @@
+- name: Create directory for dashy
+  file: state=directory path={{ ansible_user_dir }}/dashy
+
+# To just copy the file instead of using a template
+#- name: Install app.yml
+#  copy:
+#    src: app.yml
+#    dest: "{{ ansible_user_dir }}/dashy/app.yml"
+
+- name: Set up app.yml 
+  become: true
+  template: >-
+      src=roles/dashy/templates/app.j2
+      dest="{{ ansible_user_dir }}/dashy/app.yml"
+
+- name: Run Dashy
+  containers.podman.podman_container:
+    name: dashy
+    image: docker.io/lissy93/dashy
+    ports: "{{ dashy_port }}:80"
+    state: started
+    restart_policy: "always"
+    volume: "{{ ansible_user_dir }}/dashy/app.yml:/app/public/conf.yml"

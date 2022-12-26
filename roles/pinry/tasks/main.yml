@@ -1,0 +1,11 @@
+- name: Create directory for pinry
+  file: "state=directory path={{ ansible_user_dir }}/pinry"
+    
+- name: Run Pinry
+  containers.podman.podman_container:
+    name: pinry
+    image: docker.io/getpinry/pinry
+    ports: "{{ pinry_port }}:80"
+    state: started
+    restart_policy: "always"
+    volume: "{{ ansible_user_dir }}/pinry:/data"

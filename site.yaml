@@ -1,0 +1,21 @@
+- hosts: CHANGE_ME
+  user: CHANGE_ME
+  gather_facts: True
+  environment:
+    PATH: "/home/{{ ansible_env.USER }}/.guix-profile/bin:{{ ansible_env.PATH }}"
+
+  roles:
+    # Podman is commented out because it edits your /etc/containers.conf
+    # To find rootless tools under guix
+    #- podman
+    # Pihole is commented out because it reconfigures the UFW firewall,
+    # making potentially breaking changes to your system. Make sure to 
+    # inspect roles/pihole and read the README.md
+    #- pihole
+    - gitea
+    - dashy
+    - pinry
+    - influxdb
+    - grafana
+    - radicale
+    - agendav

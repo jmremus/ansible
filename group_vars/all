@@ -1,0 +1,30 @@
+---
+#e.g. ip: 10.0.0.3
+ip: CHANGE_ME
+
+# Agendav
+agendav_port: 8001
+# e.g. agendav_tz America/Los_Angeles
+agendav_tz: CHANGE_ME
+
+# Dashy
+dashy_port: 8002
+
+# Gitea
+gitea_port: 8003
+gitea_ssh_port: 2222
+
+# Grafana
+grafana_port: 3007
+
+# Influxdb
+influxdb_port: 3002
+
+# Pihole
+pihole_port: 8004
+
+# Pinry
+pinry_port: 8005
+
+# Radicale
+radicale_port: 3001

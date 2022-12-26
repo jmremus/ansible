@@ -1,0 +1,13 @@
+- name: Get path for containers.conf
+  ansible.builtin.shell:
+    cmd: realpath $(dirname $(which podman))/../libexec/podman 
+  register: podman_tool_path
+  run_once: true      
+
+- name: Set up containers.conf for Podman
+  become: true
+  template: >-
+      src=roles/podman/templates/containers.j2
+      dest=/etc/containers/containers.conf
+      owner=root
+      group=root

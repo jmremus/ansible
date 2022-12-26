@@ -1,0 +1,7 @@
+- name: Run Grafana
+  containers.podman.podman_container:
+    name: grafana
+    image: docker.io/grafana/grafana
+    ports: "{{ grafana_port }}:3000"
+    state: started
+    restart_policy: "always"

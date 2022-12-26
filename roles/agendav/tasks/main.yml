@@ -1,0 +1,16 @@
+- name: Run Agendav
+  containers.podman.podman_container:
+    name: agendav
+    image: ghcr.io/nagimov/agendav-docker:latest
+    ports: "{{ agendav_port }}:80"
+    state: started
+    restart_policy: "always"
+    env: {
+      "AGENDAV_SERVER_NAME":"127.0.0.1",
+      "AGENDAV_TITLE":"Agendav Site Title",
+      "AGENDAV_FOOTER":"Agendav Site Footer",
+      "AGENDAV_ENC_KEY":"CHANGE_ME",
+      "AGENDAV_CALDAV_SERVER":"{{ ip }}:{{ radicale_port }}/",
+      "AGENDAV_TIMEZONE":"{{ agendav_tz }}",
+      "AGENDAV_LANG":"en",
+      "AGENDAV_LOG_DIR":"/tmp/" }

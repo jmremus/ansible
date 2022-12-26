@@ -1,0 +1,43 @@
+pageInfo:
+  title: Home Lab
+sections:
+  - name: Home
+    icon: far fa-rocket
+    items:
+      - title: Pinry
+        description: ''
+        icon: generative
+        url: http://{{ ip }}:{{ pinry_port }}/
+        target: newtab
+        statusCheck: true
+        id: 0_393_pinry
+      - title: AgenDAV
+        description: ''
+        icon: generative
+        url: http://{{ ip }}:{{ agendav_port }}/
+        target: newtab
+        statusCheck: true
+        id: 1_393_agendav
+      - title: Gitea
+        icon: generative
+        url: http://{{ ip }}:{{ gitea_port }}/
+        target: newtab
+        statusCheck: true
+        id: 3_393_gitea
+      - title: Grafana
+        icon: generative
+        url: http://{{ ip }}:{{ grafana_port }}
+        target: newtab
+        statusCheck: true
+        statusCheckAllowInsecure: true
+        id: 8_393_grafana
+    displayData:
+      sortBy: default
+      rows: 1
+      cols: 1
+      collapsed: false
+      hideForGuests: false
+appConfig:
+  language: en
+  layout: auto
+  iconSize: medium

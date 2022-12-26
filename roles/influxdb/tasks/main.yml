@@ -1,0 +1,16 @@
+- name: Install python package
+  ansible.builtin.pip:
+    name: influxdb-client
+
+- name: Create directory for influx
+  file: state=directory path={{ ansible_user_dir }}/influxdb
+
+- name: Run Influxdb
+  containers.podman.podman_container:
+    name: influxdb
+    image: docker.io/influxdb
+    ports: "{{ influxdb_port }}:8086"
+    memory: "100m"
+    state: started
+    restart_policy: "always"
+    volume: "{{ ansible_user_dir }}/influxdb:/var/lib/influxdb2"

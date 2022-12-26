@@ -1,0 +1,19 @@
+- name: Create directory for radicale
+  file: state=directory path={{ ansible_user_dir }}/radicale
+
+- name: Create data directory for radicale
+  file: state=directory path={{ ansible_user_dir }}/radicale/collections
+
+- name: Install config.ini
+  copy:
+    src: config.ini
+    dest: "{{ ansible_user_dir }}/radicale/config.ini"
+
+- name: Run Radicale
+  containers.podman.podman_container:
+    name: radicale
+    image: docker.io/xlrl/radicale
+    ports: "{{ radicale_port }}:8080"
+    state: started
+    restart_policy: "always"
+    volumes: "{{ ansible_user_dir }}/radicale:/var/radicale"

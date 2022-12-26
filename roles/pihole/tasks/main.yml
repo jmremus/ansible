@@ -1,0 +1,62 @@
+# Instructions adapted from
+# https://b-woody.com/posts/2022-05-12-pihole-on-a-rootless-podman-container/
+
+# Stuck with UFW on proxmox..
+# Allow all by default (private net)
+#- community.general.ufw:
+#     default: "allow"
+#  become: yes
+
+- name: before.rules
+  copy:
+    src: before.rules
+    dest: /etc/ufw/before.rules
+  become: yes
+
+- name: ufw 
+  copy:
+    src: ufw
+    dest: /etc/default/ufw
+  become: yes
+
+
+# If we had iptables
+#- name: Forward port 53 to 1053
+#  ansible.builtin.iptables:
+#    table: nat
+#    chain: PREROUTING
+#    in_interface: enp41s0
+#    protocol: tcp
+#    match: tcp
+#    destination_port: 1053
+#    jump: REDIRECT
+#    to_ports: 53
+#    comment: "Redirect DNS traffic to port 1053"
+#  become: yes
+#
+#- name: Forward port 53 to 1053
+#  ansible.builtin.iptables:
+#    table: nat
+#    chain: PREROUTING
+#    in_interface: enp41s0
+#    protocol: udp
+#    match: udp
+#    destination_port: 1053
+#    jump: REDIRECT
+#    to_ports: 53
+#    comment: "Redirect DNS traffic to port 1053"
+#  become: yes
+
+
+- name: Run Pihole
+  containers.podman.podman_container:
+    name: pihole
+    image: docker.io/pihole/pihole:latest
+    ports: 
+      - "{{ pihole_port }}:80"
+      - "1053:53/tcp"
+      - "1053:53/udp"
+    cap_add:
+      - "NET_ADMIN"
+    state: started
+    restart_policy: "always"

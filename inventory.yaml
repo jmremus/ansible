@@ -1,0 +1,4 @@
+metal:
+  hosts:
+    drno:
+      ansible_host: CHANGE_ME

@@ -1,0 +1,20 @@
+- name: Create directory for gitea
+  file: state=directory path={{ ansible_user_dir }}/gitea
+    
+- name: Run gitea
+  containers.podman.podman_container:
+    name: gitea
+    image: docker.io/gitea/gitea:latest-rootless
+    ports: 
+      - "{{ gitea_port }}:3000"
+      - "{{ gitea_ssh_port }}:2222"
+    state: started
+    restart_policy: "always"
+    volumes:
+      - "{{ ansible_user_dir }}/gitea:/data"
+      - /etc/timezone:/etc/timezone
+      - /etc/localtime:/etc/localtime
+    env: {
+      "USER_UID" : "975", 
+      "USER_GID" : "975"
+      } 
